@@ -1,0 +1,9 @@
+<h1>คอมเมนต์</h1>
+<p><strong>โพสต์:</strong> <%= @post.title %></p>
+
+<% if @comment %>
+  <p><strong>ผู้ใช้:</strong> <%= @comment.user.username %></p>
+  <p><strong>เนื้อหา:</strong> <%= @comment.content %></p>
+<% else %>
+  <p>คอมเมนต์ไม่พบหรือถูกลบแล้ว</p>
+<% end %>

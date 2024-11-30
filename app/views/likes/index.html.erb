@@ -1,0 +1,7 @@
+<h1>ไลค์ทั้งหมดสำหรับโพสต์ "<%= @post.title %>"</h1>
+
+<ul>
+  <% @likes.each do |like| %>
+    <li><%= like.user.username %></li>
+  <% end %>
+</ul>

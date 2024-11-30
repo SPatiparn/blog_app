@@ -1,0 +1,22 @@
+<!-- app/views/posts/index.html.erb -->
+<h1>โพสต์ทั้งหมด</h1>
+
+<!-- ฟอร์มค้นหาโพสต์ -->
+<%= form_with(url: posts_path, method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :search, "ค้นหาโพสต์" %>
+    <%= form.text_field :search, value: params[:search], class: 'form-control' %>
+  </div>
+  <%= form.submit "ค้นหา", class: 'btn btn-primary' %>
+<% end %>
+
+<!-- ลิงก์ไปยังหน้าสร้างโพสต์ใหม่ -->
+<%= link_to 'สร้างโพสต์ใหม่', new_post_path, class: 'btn btn-success' %>
+
+<h2>โพสต์ทั้งหมด</h2>
+<% @posts.each do |post| %>
+  <div>
+    <h3><%= link_to post.title, post_path(post) %></h3>
+    <p><%= post.content %></p>
+  </div>
+<% end %>

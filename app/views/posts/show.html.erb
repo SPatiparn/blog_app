@@ -1,0 +1,44 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.content %></p>
+
+<!-- ลบโพสต์ -->
+<% if current_user == @post.user %>
+  <%= link_to 'ลบโพสต์', post_path(@post), method: :delete, data: { confirm: 'คุณแน่ใจที่จะลบโพสต์นี้?' }, class: 'btn btn-danger' %>
+<% end %>
+
+
+<!-- Like button -->
+<% if current_user %>
+  <% like = @post.likes.find_by(user: current_user) %>
+  <div>
+    <% if like %>
+      <%= link_to 'ยกเลิกไลค์', post_like_path(@post, like), method: :delete, class: 'btn btn-danger' %>
+    <% else %>
+      <%= link_to 'ไลค์', post_likes_path(@post), method: :post, class: 'btn btn-success' %>
+    <% end %>
+    <span>(<%= @post.likes.count %> ไลค์)</span>
+  </div>
+<% end %>
+
+<!-- คอมเมนต์ -->
+<h3>คอมเมนต์</h3>
+<%= form_with(model: [@post, Comment.new], local: true) do |form| %>
+  <div class="form-group">
+    <%= form.text_area :content, class: 'form-control', placeholder: 'เขียนคอมเมนต์...' %>
+  </div>
+  <%= form.submit "แสดงความคิดเห็น", class: 'btn btn-primary' %>
+<% end %>
+
+<h4>คอมเมนต์ทั้งหมด:</h4>
+<ul>
+  <% @post.comments.each do |comment| %>
+    <li>
+      <!-- แสดงชื่อผู้ใช้และคอมเมนต์ -->
+      <p><strong><%= comment.user.username %>:</strong> <%= comment.content %></p>
+      <%= link_to 'ดูคอมเมนต์', post_comment_path(@post, comment) %>
+      <% if comment.user == current_user %>
+        <%= link_to 'ลบ', post_comment_path(@post, comment), method: :delete, class: 'btn btn-danger' %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
